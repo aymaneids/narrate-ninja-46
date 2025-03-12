@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -59,11 +59,8 @@ const Dashboard = () => {
       .toUpperCase();
   };
 
-  const contentItems = [
-    { id: 1, title: "Marketing Email Campaign", date: "2 days ago" },
-    { id: 2, title: "Blog Post: AI Trends 2023", date: "1 week ago" },
-    { id: 3, title: "Product Description: Smart Home", date: "2 weeks ago" },
-  ];
+  // Get content items from local storage
+  const contentItems = JSON.parse(localStorage.getItem("userContent") || "[]").slice(0, 3);
 
   return (
     <div className="min-h-screen bg-background flex">
@@ -89,9 +86,12 @@ const Dashboard = () => {
                 "w-full justify-start py-2 px-3 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                 !sidebarOpen && "md:justify-center md:px-0"
               )}
+              asChild
             >
-              <Home className="h-5 w-5 mr-3" />
-              <span className={cn(!sidebarOpen && "md:hidden")}>Dashboard</span>
+              <Link to="/dashboard">
+                <Home className="h-5 w-5 mr-3" />
+                <span className={cn(!sidebarOpen && "md:hidden")}>Dashboard</span>
+              </Link>
             </Button>
             <Button 
               variant="ghost" 
@@ -99,9 +99,12 @@ const Dashboard = () => {
                 "w-full justify-start py-2 px-3 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                 !sidebarOpen && "md:justify-center md:px-0"
               )}
+              asChild
             >
-              <PlusCircle className="h-5 w-5 mr-3" />
-              <span className={cn(!sidebarOpen && "md:hidden")}>Generate Content</span>
+              <Link to="/generate-content">
+                <PlusCircle className="h-5 w-5 mr-3" />
+                <span className={cn(!sidebarOpen && "md:hidden")}>Generate Content</span>
+              </Link>
             </Button>
             <Button 
               variant="ghost" 
@@ -109,9 +112,12 @@ const Dashboard = () => {
                 "w-full justify-start py-2 px-3 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                 !sidebarOpen && "md:justify-center md:px-0"
               )}
+              asChild
             >
-              <FileEdit className="h-5 w-5 mr-3" />
-              <span className={cn(!sidebarOpen && "md:hidden")}>My Content</span>
+              <Link to="/my-content">
+                <FileEdit className="h-5 w-5 mr-3" />
+                <span className={cn(!sidebarOpen && "md:hidden")}>My Content</span>
+              </Link>
             </Button>
             <Button 
               variant="ghost" 
@@ -175,9 +181,11 @@ const Dashboard = () => {
             <div className="bg-white p-6 rounded-lg shadow-sm border">
               <h2 className="text-xl font-semibold mb-2">Welcome back, {user.name}!</h2>
               <p className="text-muted-foreground">Ready to create your next piece of marketing content?</p>
-              <Button className="mt-4">
-                <PlusCircle className="mr-2 h-4 w-4" />
-                Generate New Content
+              <Button className="mt-4" asChild>
+                <Link to="/generate-content">
+                  <PlusCircle className="mr-2 h-4 w-4" />
+                  Generate New Content
+                </Link>
               </Button>
             </div>
 
@@ -185,27 +193,43 @@ const Dashboard = () => {
             <div>
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-semibold">Recent Content</h2>
-                <Button variant="outline" size="sm">View All</Button>
+                <Button variant="outline" size="sm" asChild>
+                  <Link to="/my-content">View All</Link>
+                </Button>
               </div>
               
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {contentItems.map((item) => (
-                  <Card key={item.id}>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-lg">{item.title}</CardTitle>
-                      <CardDescription>{item.date}</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex justify-between items-center mt-2">
-                        <div className="flex space-x-2">
-                          <Button variant="outline" size="sm">Edit</Button>
-                          <Button variant="outline" size="sm">Download</Button>
+                {contentItems.length > 0 ? (
+                  contentItems.map((item: any) => (
+                    <Card key={item.id}>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-lg">{item.title}</CardTitle>
+                        <CardDescription>{new Date(item.date).toLocaleDateString()}</CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="flex justify-between items-center mt-2">
+                          <div className="flex space-x-2">
+                            <Button variant="outline" size="sm">Edit</Button>
+                            <Button variant="outline" size="sm">Download</Button>
+                          </div>
+                          <Button variant="ghost" size="sm" className="text-destructive">Delete</Button>
                         </div>
-                        <Button variant="ghost" size="sm" className="text-destructive">Delete</Button>
-                      </div>
+                      </CardContent>
+                    </Card>
+                  ))
+                ) : (
+                  <Card className="md:col-span-2 lg:col-span-3">
+                    <CardContent className="p-6 flex flex-col items-center justify-center text-center">
+                      <p className="text-muted-foreground mb-4">You haven't created any content yet</p>
+                      <Button asChild>
+                        <Link to="/generate-content">
+                          <PlusCircle className="mr-2 h-4 w-4" />
+                          Generate Your First Content
+                        </Link>
+                      </Button>
                     </CardContent>
                   </Card>
-                ))}
+                )}
               </div>
             </div>
 
@@ -219,10 +243,10 @@ const Dashboard = () => {
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
                     <span>Content Generations</span>
-                    <span className="font-medium">3 / 10 this month</span>
+                    <span className="font-medium">{contentItems.length} / 10 this month</span>
                   </div>
                   <div className="w-full bg-secondary h-2 rounded-full overflow-hidden">
-                    <div className="bg-primary h-full rounded-full" style={{ width: '30%' }}></div>
+                    <div className="bg-primary h-full rounded-full" style={{ width: `${(contentItems.length / 10) * 100}%` }}></div>
                   </div>
                   <Button variant="outline" className="mt-4" size="sm">
                     Upgrade Plan
