@@ -10,6 +10,8 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import GenerateContent from "./pages/GenerateContent";
 import MyContent from "./pages/MyContent";
+import AccountSettings from "./pages/AccountSettings";
+import HelpSupport from "./pages/HelpSupport";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +29,8 @@ const App = () => (
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/generate-content" element={<GenerateContent />} />
           <Route path="/my-content" element={<MyContent />} />
+          <Route path="/account-settings" element={<AccountSettings />} />
+          <Route path="/help-support" element={<HelpSupport />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

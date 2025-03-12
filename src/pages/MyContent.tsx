@@ -44,8 +44,8 @@ const MyContent = () => {
   const { toast } = useToast();
   const [contentItems, setContentItems] = useState<ContentItem[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filterType, setFilterType] = useState("");
-  const [sortOrder, setSortOrder] = useState("newest");
+  const [filterType, setFilterType] = useState<string>("");
+  const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
 
   // Check if user is logged in
   useEffect(() => {
@@ -206,7 +206,7 @@ const MyContent = () => {
             <div className="w-40">
               <Select
                 value={sortOrder}
-                onValueChange={setSortOrder}
+                onValueChange={(value: "newest" | "oldest") => setSortOrder(value)}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Sort by" />

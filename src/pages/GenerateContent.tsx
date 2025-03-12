@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -21,7 +20,8 @@ import {
   Bold,
   Italic,
   Save,
-  Download
+  Download,
+  ArrowLeft
 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -158,10 +158,20 @@ const GenerateContent = () => {
     });
   };
 
+  const handleBack = () => {
+    navigate("/dashboard");
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <main className="container mx-auto py-8 px-4">
-        <h1 className="text-3xl font-bold mb-8">Generate New Content</h1>
+        <div className="flex items-center mb-6">
+          <Button variant="ghost" size="sm" onClick={handleBack} className="mr-2">
+            <ArrowLeft className="h-4 w-4 mr-1" />
+            Back
+          </Button>
+          <h1 className="text-3xl font-bold">Generate New Content</h1>
+        </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Form Section */}
