@@ -195,7 +195,7 @@ const MyContent = () => {
                   <SelectValue placeholder="All Types" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Types</SelectItem>
+                  <SelectItem value="all-types">All Types</SelectItem>
                   <SelectItem value="blog-post">Blog Post</SelectItem>
                   <SelectItem value="social-media">Social Media</SelectItem>
                   <SelectItem value="ad-copy">Ad Copy</SelectItem>
