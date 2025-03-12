@@ -2,6 +2,7 @@
 import { Button } from "./Button";
 import { AnimatedContainer } from "./AnimatedContainer";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const Hero = () => {
   return (
@@ -51,10 +52,12 @@ export const Hero = () => {
             
             <AnimatedContainer animation="slide-down" delay={300}>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="group">
-                  Start Generating Content
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Button>
+                <Link to="/signup">
+                  <Button size="lg" className="group">
+                    Start Generating Content
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Button>
+                </Link>
                 <Button variant="secondary" size="lg">
                   Watch Demo
                 </Button>

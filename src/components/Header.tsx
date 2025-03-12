@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "./Button";
 import { Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -50,7 +51,12 @@ export const Header = () => {
           >
             Pricing
           </a>
-          <Button variant="primary">Get Started</Button>
+          <Link to="/login">
+            <Button variant="secondary">Login</Button>
+          </Link>
+          <Link to="/signup">
+            <Button variant="primary">Sign Up</Button>
+          </Link>
         </nav>
 
         {/* Mobile Menu Button */}
@@ -92,9 +98,16 @@ export const Header = () => {
           >
             Pricing
           </a>
-          <Button variant="primary" fullWidth className="mt-2">
-            Get Started
-          </Button>
+          <Link to="/login" onClick={toggleMenu}>
+            <Button variant="secondary" fullWidth className="mt-2">
+              Login
+            </Button>
+          </Link>
+          <Link to="/signup" onClick={toggleMenu}>
+            <Button variant="primary" fullWidth className="mt-2">
+              Sign Up
+            </Button>
+          </Link>
         </div>
       </div>
     </header>
